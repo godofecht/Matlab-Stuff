@@ -30,7 +30,7 @@ Maths and Computer Science:
 **You will need:**
 
 - [MATLAB](https://www.mathworks.com/products/matlab.html). MATLAB needs a paid licence from MathWorks. Many schools, colleges and universities have one, so ask your teacher.
-- Or [GNU Octave](https://octave.org/download), a free program that runs most MATLAB code. These scripts only use `audioread`, `audiowrite`, `filter` and basic maths, which Octave also has. They have not been tested in Octave.
+- Or [GNU Octave](https://octave.org/download), a free program that runs most MATLAB code. These scripts only use `audioread`, `audiowrite`, `filter` and basic maths, which Octave also has. Steps 3 to 7 and `main.m` were tested in GNU Octave 11.3, except for `sound`, which was not played.
 - Headphones or speakers.
 
 Steps:
@@ -74,7 +74,7 @@ Steps:
    audiowrite('my_result.wav', y, fs)
    ```
 
-`main.m` is meant to run the whole chain in one go, but it has a bug: it loads the clip into `y` and then passes `x` to `delay`. See "Project status".
+To run the whole chain in one go, type `main`. It applies the delay and writes the result to `nobody_processed.wav`, replacing the copy that came with the repo. The distortion and reverb lines in `main.m` start commented out.
 
 ## How it works
 
@@ -94,7 +94,7 @@ Steps:
 1. Change the echo. In the `delay` call, try a longer gap (0.3 seconds) and fewer echoes (4).
 2. Change how hard the distortion is driven. In `distortion.m`, compare a gain of 2 with a gain of 50.
 3. Make a bigger room. Classic reverbs use comb delays of about 30 to 45 milliseconds. Try `[0.030, 0.035, 0.040, 0.045]` as the comb delays when you call `reverb`.
-4. Fix `main.m` so it runs: change `[y, fs]` to `[x, fs]` on the first line, then uncomment the distortion and reverb lines one at a time.
+4. In `main.m`, uncomment the distortion and reverb lines one at a time, run `main` and listen to `nobody_processed.wav` each time.
 5. Ambitious: write `tremolo.m`, which multiplies the signal by a slow sine wave so the volume pulses. Use `distortion.m` as a model for a function file.
 
 ## Technical details
@@ -113,7 +113,6 @@ Equations, from the code (`D` is the delay in samples, `g` the gain):
 
 These scripts date from 2020 and are not being developed. Known problems:
 
-- `main.m` reads the clip into `y` and then calls `delay(x, ...)`, so it stops with an error that `x` is not defined.
 - `delay.m` is missing semicolons on the `head` and `tail` lines, so it prints large arrays while it runs.
 - `reverb.m` takes four allpass delays but uses only the first three.
 - The comb delays in `main.m` (0.1 to 0.5 milliseconds) are much shorter than the allpass delays (10 to 85 milliseconds). Classic Schroeder reverbs do the opposite, so the default reverb sounds more like a metallic filter than a room.
