@@ -1,5 +1,5 @@
 % Read input signal:
-[y, fs] = audioread('nobody.wav');
+[x, fs] = audioread('nobody.wav');
 
 % Apply delay to the signal:
 seconds = 0.1;
